@@ -57,7 +57,7 @@ export default {
     theme: 'theme'
   },
   reg: {
-    title: 'Registration'
+    title: 'Регистрация'
   },
   login: {
     title: 'Login Form',

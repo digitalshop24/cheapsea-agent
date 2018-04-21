@@ -2,7 +2,7 @@
   <div class="login-container">
     <el-form class="login-form" autoComplete="on" :model="loginForm" ref="loginForm" label-position="left">
       <div class="title-container">
-        <h3 class="title">{{$t('login.title')}}</h3>
+        <h3 class="title">{{$t('reg.title')}}</h3>
         <lang-select class="set-language"></lang-select>
       </div>
       <el-form-item prop="username">
@@ -12,6 +12,16 @@
         <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
       </el-form-item>
 
+      <el-form-item prop="password">
+        <span class="svg-container">
+          <svg-icon icon-class="password" />
+        </span>
+        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="password" />
+        <span class="show-pwd" @click="showPwd">
+          <svg-icon icon-class="eye" />
+        </span>
+      </el-form-item>
+      
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
@@ -54,7 +64,7 @@ import SocialSign from './socialsignin'
 
 export default {
   components: { LangSelect, SocialSign },
-  name: 'login',
+  name: 'reg',
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!isvalidUsername(value)) {
