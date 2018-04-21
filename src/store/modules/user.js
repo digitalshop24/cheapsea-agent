@@ -1,4 +1,4 @@
-import { loginByUsername, logout, getUserInfo } from '@/api/login'
+import { loginByUsername, logout, getUserInfo, registration } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -52,6 +52,21 @@ const user = {
           const data = response.data
           commit('SET_TOKEN', data.token)
           setToken(response.data.token)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+
+    Registration({ commit }, userInfo) {
+      // const username = userInfo.username.trim()
+      return new Promise((resolve, reject) => {
+        registration(userInfo).then(response => {
+          const data = response.data
+          console.log(data)
+          // commit('SET_TOKEN', data.token)
+          // setToken(response.data.token)
           resolve()
         }).catch(error => {
           reject(error)

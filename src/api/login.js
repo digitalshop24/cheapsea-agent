@@ -12,6 +12,20 @@ export function loginByUsername(username, password) {
   })
 }
 
+export function registration(userInfo) {
+  const data = {
+    email: userInfo.email,
+    password: userInfo.password,
+    password_confirmation: userInfo.passwordConfirmation,
+    confirm_success_url: '/login'
+  }
+  return request({
+    url: 'https://cheapsea.net/auth',
+    method: 'post',
+    data
+  })
+}
+
 export function logout() {
   return request({
     url: '/login/logout',
@@ -26,4 +40,3 @@ export function getUserInfo(token) {
     params: { token }
   })
 }
-

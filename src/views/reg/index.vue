@@ -9,7 +9,7 @@
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="email" />
         </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" :placeholder="$t('reg.mail')" />
+        <el-input name="username" type="text" v-model="loginForm.email" autoComplete="on" :placeholder="$t('reg.mail')" />
       </el-form-item>
 
       <el-form-item prop="password">
@@ -26,7 +26,7 @@
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
-        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.passwordConfirm" autoComplete="on" :placeholder="$t('reg.passwordConfirm')" />
+        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.passwordConfirmation" autoComplete="on" :placeholder="$t('reg.passwordConfirm')" />
         <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />
         </span>
@@ -73,13 +73,14 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
-        password: ''
+        email: 'test@sasddsssd.ru',
+        password: 'sakalin223',
+        passwordConfirmation: 'sakalin223'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        email: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }],
-        passwordConfirm: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        passwordConfirmation: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
       loading: false,
@@ -98,14 +99,14 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+          this.$store.dispatch('Registration', this.loginForm).then(() => {
             this.loading = false
-            this.$router.push({ path: '/' })
+            this.$router.push({ path: '/login' })
           }).catch(() => {
             this.loading = false
           })
         } else {
-          console.log('error submit!!')
+          console.log('Ошибка при отправки')
           return false
         }
       })
