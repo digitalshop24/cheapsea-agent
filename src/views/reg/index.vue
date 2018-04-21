@@ -7,47 +7,38 @@
       </div>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="email" />
         </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
+        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" :placeholder="$t('reg.mail')" />
       </el-form-item>
 
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
-        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="password" />
+        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" :placeholder="$t('reg.password')" />
         <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />
         </span>
       </el-form-item>
-      
+
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
-        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="password" />
+        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.passwordConfirm" autoComplete="on" :placeholder="$t('reg.passwordConfirm')" />
         <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />
         </span>
       </el-form-item>
 
-      <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="handleLogin">{{$t('login.logIn')}}</el-button>
-
-      <div class="tips">
-        <span>{{$t('login.username')}} : admin</span>
-        <span>{{$t('login.password')}} : {{$t('login.any')}}</span>
-      </div>
-      <div class="tips">
-        <span style="margin-right:18px;">{{$t('login.username')}} : editor</span>
-        <span>{{$t('login.password')}} : {{$t('login.any')}}</span>
-      </div>
-
-      <el-button class="thirdparty-button" type="primary" @click="showDialog=true">{{$t('login.thirdparty')}}</el-button>
+      <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="handleLogin">{{$t('reg.regIn')}}</el-button>
+      <el-button type="primary" style="width:100%;margin-bottom:30px;margin-left:0" :loading="loading" @click.native.prevent="$router.push('/login')">{{$t('reg.logIn')}}</el-button>
+      <!-- <el-button class="thirdparty-button" type="primary" @click="showDialog=true">{{$t('reg.thirdparty')}}</el-button> -->
     </el-form>
 
-    <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog" append-to-body>
-      {{$t('login.thirdpartyTips')}}
+    <el-dialog :title="$t('reg.thirdparty')" :visible.sync="showDialog" append-to-body>
+      {{$t('reg.thirdpartyTips')}}
       <br/>
       <br/>
       <br/>
@@ -82,12 +73,13 @@ export default {
     }
     return {
       loginForm: {
-        username: 'reskwer@ya.ru',
-        password: 'sakalin223'
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        passwordConfirm: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
       loading: false,

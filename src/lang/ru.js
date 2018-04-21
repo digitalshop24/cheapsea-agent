@@ -57,11 +57,20 @@ export default {
     theme: 'theme'
   },
   reg: {
-    title: 'Регистрация'
+    title: 'Регистрация',
+    regIn: 'Зарегистрироваться',
+    logIn: 'Войти под своим аккаунтом',
+    username: 'Имя пользователя',
+    mail: 'E-mail',
+    password: 'Пароль',
+    passwordConfirm: 'Повторите пароль',
+    any: 'any',
+    thirdparty: 'Or connect with',
+    thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !'
   },
   login: {
-    title: 'Login Form',
-    logIn: 'Log in',
+    title: 'Авторизация',
+    logIn: 'Войти',
     username: 'Username',
     password: 'Password',
     any: 'any',
