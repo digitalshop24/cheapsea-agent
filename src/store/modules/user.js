@@ -3,6 +3,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
   state: {
+    local: false,
     user: '',
     status: '',
     code: '',
@@ -17,6 +18,9 @@ const user = {
   },
 
   mutations: {
+    SET_LOCALUSERINFO: (state, data) => {
+      state.local = data
+    },
     SET_CODE: (state, code) => {
       state.code = code
     },
@@ -63,10 +67,10 @@ const user = {
       // const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         registration(userInfo).then(response => {
-          const data = response.data
-          console.log(data)
-          // commit('SET_TOKEN', data.token)
-          // setToken(response.data.token)
+          const data = response.data.data
+          commit('SET_TOKEN', data.email)
+          commit('SET_LOCALUSERINFO', data)
+          setToken(data.email)
           resolve()
         }).catch(error => {
           reject(error)

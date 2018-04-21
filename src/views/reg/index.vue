@@ -101,7 +101,7 @@ export default {
           this.loading = true
           this.$store.dispatch('Registration', this.loginForm).then(() => {
             this.loading = false
-            this.$router.push({ path: '/login' })
+            this.$router.push({ path: '/' })
           }).catch(() => {
             this.loading = false
           })
