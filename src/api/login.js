@@ -6,7 +6,7 @@ export function loginByUsername(username, password) {
     password: password
   }
   return request({
-    url: 'https://cheapsea.net/auth/sign_in',
+    url: '/api/auth',
     method: 'post',
     data
   })
@@ -20,7 +20,7 @@ export function registration(userInfo) {
     confirm_success_url: '/login'
   }
   return request({
-    url: 'https://cheapsea.net/auth',
+    url: '/auth',
     method: 'post',
     data
   })
@@ -35,7 +35,7 @@ export function logout() {
 
 export function getUserInfo(token) {
   return request({
-    url: '/user/info',
+    url: '/api/v1/profile',
     method: 'get',
     params: { token }
   })
