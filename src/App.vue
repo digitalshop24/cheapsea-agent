@@ -6,6 +6,9 @@
 
 <script>
   export default{
-    name: 'App'
+    name: 'App',
+    async created() {
+    	await this.$store.dispatch('getCity')
+    }
   }
 </script>

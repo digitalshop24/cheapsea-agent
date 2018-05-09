@@ -13,12 +13,12 @@ const service = axios.create({
 service.interceptors.request.use(config => {
   // Do something before request is sent
   if (store.getters.token) {
-    config.headers['X-Token'] = getToken() // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
+    // config.headers['X-Token'] = getToken() // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
   }
-  config.headers.client = localStorage.getItem('client')
-  config.headers['access-token'] = localStorage.getItem('access-token')
-  config.headers.uid = localStorage.getItem('uid')
-  config.headers['token-type'] = 'Bearer'
+  // config.headers.client = localStorage.getItem('client')
+  // config.headers['access-token'] = localStorage.getItem('access-token')
+  // config.headers.uid = localStorage.getItem('uid')
+  // config.headers['token-type'] = 'Bearer'
   return config
 }, error => {
   // Do something with request error
