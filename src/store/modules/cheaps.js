@@ -22,9 +22,9 @@ const cheaps = {
         })
       })
     },
-    getAirlines({commit}) {
-      return fetchAirlines()
-    }
+    // getAirlines({commit}) {
+    //   return fetchAirlines()
+    // }
   }
 }
 
