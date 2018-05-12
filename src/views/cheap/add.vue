@@ -29,7 +29,7 @@
 					v-for="(item, key) in cityOptions"
 					:key="key"
 					:label="item.name"
-					:value="cityId(item)">
+					:value="item.id">
 				</el-option>
 		  </el-select>
 		</div>
@@ -48,7 +48,7 @@
 					v-for="(item, key) in cityOptions"
 					:key="key"
 					:label="item.name"
-					:value="cityId(item)">
+					:value="item.id">
 				</el-option>
 		  </el-select>
 		</div>
@@ -95,7 +95,7 @@
 					v-for="(item, key) in cityOptions"
 					:key="key"
 					:label="item.name"
-					:value="cityId(item)">
+					:value="item.id">
 				</el-option>
 		  </el-select>
 		</div>
@@ -221,8 +221,9 @@ export default {
 			  fetchCity(query).then(response => {
 			  	this.loading = false;
 			  	this.cityOptions = response.data.filter(item => {
-			      return item.name.toLowerCase()
-					.indexOf(query.toLowerCase()) > -1
+			  		let test1 = item.name.toLowerCase().indexOf(query.toLowerCase()) > -1
+			  		let test2 = item.name_en.toLowerCase().indexOf(query.toLowerCase()) > -1
+			      return test1 || test2
 			   })
 			  })
 			} else {
@@ -250,6 +251,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.cheap .el-date-editor .el-range-separator
+	width: 9% !important
 .cheap
 	padding 20px 40px
 	max-width 600px

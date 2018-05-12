@@ -1,5 +1,6 @@
 import { loginByUsername, logout, getUserInfo, registration } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import defaultAvatar from '@/assets/default_avatar.png'
 
 const user = {
   state: {
@@ -12,6 +13,7 @@ const user = {
     avatar: '',
     introduction: '',
     roles: [],
+    mail: '',
     setting: {
       articlePlatform: []
     }
@@ -39,6 +41,9 @@ const user = {
     SET_NAME: (state, name) => {
       state.name = name
     },
+    SET_MAIL: (state, mail) => {
+      state.mail = mail
+    },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
     },
@@ -64,13 +69,9 @@ const user = {
     },
 
     Registration({ commit }, userInfo) {
-      // const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         registration(userInfo).then(response => {
           const data = response.data.data
-          commit('SET_TOKEN', data.email)
-          commit('SET_LOCALUSERINFO', data)
-          setToken(data.email)
           resolve()
         }).catch(error => {
           reject(error)
@@ -87,9 +88,14 @@ const user = {
           }
           const data = response.data
           commit('SET_ROLES', data.role)
-          commit('SET_NAME', data.email)
-          commit('SET_AVATAR', data.avatar)
+          commit('SET_NAME', data.name)
+          commit('SET_MAIL', data.email)
           commit('SET_INTRODUCTION', data.introduction)
+          if (data.image.url === null) {
+            commit('SET_AVATAR', defaultAvatar)
+          }else {
+            commit('SET_AVATAR', data.image.url)
+          }
           resolve(response)
         }).catch(error => {
           reject(error)

@@ -7,6 +7,13 @@
       </div>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
+          <svg-icon icon-class="user" />
+        </span>
+        <el-input name="username" type="text" v-model="loginForm.name" autoComplete="on" :placeholder="$t('reg.username')" />
+      </el-form-item>
+
+      <el-form-item prop="username">
+        <span class="svg-container svg-container_login">
           <svg-icon icon-class="email" />
         </span>
         <el-input name="username" type="text" v-model="loginForm.email" autoComplete="on" :placeholder="$t('reg.mail')" />
@@ -34,7 +41,6 @@
 
       <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="handleLogin">{{$t('reg.regIn')}}</el-button>
       <el-button type="primary" style="width:100%;margin-bottom:30px;margin-left:0" :loading="loading" @click.native.prevent="$router.push('/login')">{{$t('reg.logIn')}}</el-button>
-      <!-- <el-button class="thirdparty-button" type="primary" @click="showDialog=true">{{$t('reg.thirdparty')}}</el-button> -->
     </el-form>
 
     <el-dialog :title="$t('reg.thirdparty')" :visible.sync="showDialog" append-to-body>
@@ -73,9 +79,10 @@ export default {
     }
     return {
       loginForm: {
-        email: 'test@sasddsssd.ru',
-        password: 'sakalin223',
-        passwordConfirmation: 'sakalin223'
+        email: '',
+        password: '',
+        passwordConfirmation: '',
+        name: ''
       },
       loginRules: {
         email: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -101,7 +108,7 @@ export default {
           this.loading = true
           this.$store.dispatch('Registration', this.loginForm).then(() => {
             this.loading = false
-            this.$router.push({ path: '/' })
+            this.$router.push({ path: '/login' })
           }).catch(() => {
             this.loading = false
           })

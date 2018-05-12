@@ -17,10 +17,10 @@ export function registration(userInfo) {
     email: userInfo.email,
     password: userInfo.password,
     password_confirmation: userInfo.passwordConfirmation,
-    confirm_success_url: '/login'
+    name: userInfo.name
   }
   return request({
-    url: '/auth',
+    url: '/api/v1/profile',
     method: 'post',
     data
   })
