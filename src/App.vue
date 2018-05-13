@@ -8,7 +8,7 @@
   export default{
     name: 'App',
     async created() {
-    	await this.$store.dispatch('getCity')
+    	await this.$store.dispatch('getOffers')
     }
   }
 </script>

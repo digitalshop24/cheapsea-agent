@@ -3,22 +3,22 @@
 		<div class="cheap__item">
 			<div class="cheap__title">Тип предложения</div>
 			<div class="cheap__offer-type">
-				<el-radio v-model="offerType" label="airplane" class="cheap__offer-item">Самолет</el-radio>
-				<el-radio v-model="offerType" disabled label="trane" class="cheap__offer-item">Поезд</el-radio>
-				<el-radio v-model="offerType" disabled label="bus" class="cheap__offer-item">Автобус</el-radio>
-				<el-radio v-model="offerType" disabled label="car_rent" class="cheap__offer-item">Аренда авто</el-radio>
+				<el-radio v-model="cheap.offer_type" label="airplane" class="cheap__offer-item">Самолет</el-radio>
+				<el-radio v-model="cheap.offer_type" disabled label="trane" class="cheap__offer-item">Поезд</el-radio>
+				<el-radio v-model="cheap.offer_type" disabled label="bus" class="cheap__offer-item">Автобус</el-radio>
+				<el-radio v-model="cheap.offer_type" disabled label="car_rent" class="cheap__offer-item">Аренда авто</el-radio>
 			</div>
 		</div>
 
 		<div class="cheap__item">
 			<div class="cheap__title">Название</div>
-			<el-input placeholder="Название" v-model="name"></el-input>
+			<el-input placeholder="Название" v-model="cheap.name"></el-input>
 		</div>
 
 		<div class="cheap__item">
 			<div class="cheap__title">Город отправления</div>
 			<el-select
-				v-model="cityFrom"
+				v-model="cheap.origin_id"
 				filterable
 				remote
 				reserve-keyword
@@ -37,7 +37,7 @@
 		<div class="cheap__item">
 			<div class="cheap__title">Город прибытия</div>
 			<el-select
-				v-model="cityTo"
+				v-model="cheap.destination_id"
 				filterable
 				remote
 				reserve-keyword
@@ -56,7 +56,7 @@
 		<div class="cheap__item">
 			<div class="cheap__title">Авиакомпания</div>
 			<el-select
-				v-model="airline"
+				v-model="cheap.airline"
 				filterable
 				remote
 				reserve-keyword
@@ -75,7 +75,7 @@
 		<div class="cheap__item">
 			<div class="cheap__title">Прямой</div>
 			<el-switch
-			  v-model="direct"
+			  v-model="cheap.is_direct"
 			  active-color="#13ce66"
 			  inactive-color="#cccccc">
 			</el-switch>
@@ -84,7 +84,7 @@
 		<div class="cheap__item">
 			<div class="cheap__title">Город пересадки</div>
 			<el-select
-				v-model="cityTransplant"
+				v-model="cheap.cityTransplant"
 				filterable
 				remote
 				reserve-keyword
@@ -103,7 +103,7 @@
 		<div class="cheap__item">
 			<div class="cheap__title">Авиакомпания</div>
 			<el-select
-				v-model="airlineTransplant"
+				v-model="cheap.airlineTransplant"
 				filterable
 				remote
 				reserve-keyword
@@ -121,15 +121,22 @@
 
 		<div class="cheap__item">
 			<div class="cheap__title">Цена</div>
-			<el-input placeholder="Название" v-model="price"></el-input>
+			<el-input class="cheap__pice" placeholder="Цена" v-model="cheap.price"></el-input>
+			<el-select v-model="cheap.price_currency" placeholder="Валюта" class="cheap__currency">
+				<el-option
+					v-for="item in ['RUB', 'USD', 'EUR']"
+					:label="item"
+					:value="item">
+				</el-option>
+  			</el-select>
 		</div>
 
 		<div class="cheap__item">
 			<div class="cheap__title">Даты предложения</div>
 			<el-date-picker
-				v-model="date1"
+				v-model="cheap.date1"
 				type="daterange"
-				range-separator="To"
+				range-separator="По"
 				start-placeholder="Дата начала"
 				end-placeholder="Дата завершения">
 			</el-date-picker>
@@ -138,7 +145,7 @@
 		<div class="cheap__item">
 			<div class="cheap__title">Дата конца спец.предложения:</div>
 			<el-date-picker
-				v-model="date2"
+				v-model="cheap.date2"
 				type="date"
 				placeholder="Укажите дату">
 			</el-date-picker>
@@ -150,7 +157,7 @@
 			  type="textarea"
 			  :rows="2"
 			  placeholder="Опишите особенности предложения если они есть."
-			  v-model="text">
+			  v-model="cheap.text">
 			</el-input>
 		</div>
 
@@ -167,40 +174,50 @@
 
 		<div class="cheap__item">
 			<el-button type="primary">Предпросмотр</el-button>
-			<el-button type="success">Опубликовать</el-button>
+			<el-button type="success" @click="save">Опубликовать</el-button>
 		</div>
 
 	</div>
 </template>
 <script>
 import _ from 'lodash'
-import { fetchCity, fetchAirlines } from '@/api/cheaps'
+import { fetchCity, fetchAirlines, fetchSetOffer } from '@/api/cheaps'
 
 export default {
 	name: 'cheap-add',
 	data() {
 		return {
-			offerType: null,
-			name: '',
-			cityFrom: null,
-			cityTo: null,
-			airline: null,
-			direct: false,
-			cityTransplant: null,
-			airlineTransplant: null,
-			price: null,
-			date1: null,
-			date2: null,
+			cheap:{
+				name: '',
+				is_direct: false,
+				origin_id: null,
+				destination_id: null,
+				price: null,
+				price_currency: null,
 
+				offer_type: null,
+				airline: null,
+				cityTransplant: null,
+				airlineTransplant: null,
+				date1: null,
+				date2: null,
+				text: '',
+			},
 			dialogImageUrl: '',
-      	dialogVisible: false,
+      		dialogVisible: false,
 
 			airlineOptions: [],
 			cityOptions: [],
-	      loading: false
+	    	loading: false
 		}
 	},
 	methods: {
+		save() {
+			let token = this.$store.state.user.token
+			fetchSetOffer(token, this.cheap).then(resonse => {
+				console.log(resonse.data)
+			})
+		},
 		getAirlines(query) {
 			if (query !== '') {
 			  this.loading = true;
@@ -257,6 +274,18 @@ export default {
 	padding 20px 40px
 	max-width 600px
 	margin 0 auto
+
+.cheap .el-range-editor.el-input__inner
+	width: 100%
+	
+.cheap .el-select
+	width: 100%
+
+.cheap__pice
+	width:  40%
+	
+.cheap__currency
+	width:  40% !important
 	
 .cheap__item
 	margin-bottom 30px

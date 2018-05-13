@@ -18,3 +18,21 @@ export function fetchAirlines(query) {
     }
   })
 }
+
+export function fetchGetOffer(query) {
+  return request({
+    url: '/api/v1/offers',
+    method: 'get',
+    data: {
+      query
+    }
+  })
+}
+
+export function fetchSetOffer(token, data) {
+  return request({
+    url: '/api/v1/offers',
+    method: 'post',
+    data
+  })
+}
